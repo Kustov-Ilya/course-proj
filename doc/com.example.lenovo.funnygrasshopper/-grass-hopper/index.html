@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GrassHopper - </title>
+<link rel="stylesheet" href="..\..\style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">com.example.lenovo.funnygrasshopper</a>&nbsp;/&nbsp;<a href=".">GrassHopper</a><br/>
+<br/>
+<h1>GrassHopper</h1>
+<code><span class="keyword">class </span><span class="identifier">GrassHopper</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Any</span></code>
+<p>Класс для шифрования и расшифрования текста блочным
+симметричным шифром "Кузнечик".</p>
+<h3>Parameters</h3>
+
+<p><a name="key"></a>
+<code>key</code> - Раундовые ключи типа MutableList
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-init-.html">&lt;init&gt;</a></td>
+<td>
+<code><span class="identifier">GrassHopper</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Класс для шифрования и расшифрования текста блочным
+симметричным шифром "Кузнечик".</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="key.html">key</a></td>
+<td>
+<code><span class="keyword">lateinit</span> <span class="keyword">var </span><span class="identifier">key</span><span class="symbol">: </span><span class="identifier">Array</span><span class="symbol">&lt;</span><span class="identifier">String</span><span class="symbol">&gt;</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<a href="-parsing.html">Parsing</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">Parsing</span><span class="symbol">(</span><span class="identifier" id="com.example.lenovo.funnygrasshopper.GrassHopper$Parsing(kotlin.String)/tmp">tmp</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Функция, разбивающая текст на блоки по 16 символов</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="decrypt.html">decrypt</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">decrypt</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Функция дешифрования</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="encrypt.html">encrypt</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">encrypt</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Функция шифрования</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="key_create.html">key_create</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">key_create</span><span class="symbol">(</span><span class="identifier" id="com.example.lenovo.funnygrasshopper.GrassHopper$key_create(kotlin.String)/KEY">KEY</span><span class="symbol">:</span>&nbsp;<span class="identifier">String</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Unit</span></code>
+<p>Функция, создающая раундовые ключи из ключа пользователя</p>
+</td>
+</tr>
+<tr>
+<td>
+<a href="real.html">real</a></td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">real</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">String</span></code>
+<p>Функция, возвращающая текст, хранящийся в классе</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
