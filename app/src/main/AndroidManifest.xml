@@ -21,10 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EncryptActivity" />
-        <activity android:name=".DecryptActivity" />
-        <activity android:name=".KeyActivity" />
-        <activity android:name=".DecryptTextActivity"></activity>
+
+
     </application>
 
 </manifest>

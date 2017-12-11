@@ -4,59 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e1f5fe"
     android:orientation="vertical"
-    tools:context="com.example.lenovo.funnygrasshopper.MainActivity">
+    tools:context="com.example.lenovo.funnygrasshopper.MainActivity"
+    tools:layout_editor_absoluteY="25dp">
 
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/key"
+    <ImageView
+        android:layout_width="335dp"
+        android:layout_height="327dp"
+        android:src="@drawable/ic_main_screen"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/key"
-        style="@android:style/Widget.DeviceDefault.Light.Button.Inset"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Tap to enter key"
-        app:layout_constraintBottom_toTopOf="@+id/encr"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="0dp" />
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></FrameLayout>
 
-    <Button
-        android:id="@+id/encr"
-        style="@android:style/Widget.DeviceDefault.Light.Button.Inset"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Tap to encrypt"
-        app:layout_constraintBottom_toTopOf="@+id/decr"
-        app:layout_constraintTop_toBottomOf="@+id/key"
-        tools:layout_editor_absoluteX="0dp" />
 
-    <Button
-        android:id="@+id/decr"
-        style="@android:style/Widget.DeviceDefault.Light.Button.Inset"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Tap to decrypt image"
-        app:layout_constraintBottom_toTopOf="@+id/decrText"
-        app:layout_constraintTop_toBottomOf="@+id/encr"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <Button
-        android:id="@+id/decrText"
-        style="@android:style/Widget.DeviceDefault.Light.Button.Inset"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Tap to decrypt text"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/color_bottom_navigation"
+        app:itemTextColor="@color/color_bottom_navigation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/decr" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame"
+        app:menu="@menu/menu">
+
+
+    </android.support.design.widget.BottomNavigationView>
+
+
 </android.support.constraint.ConstraintLayout>

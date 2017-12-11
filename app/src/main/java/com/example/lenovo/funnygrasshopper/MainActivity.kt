@@ -1,15 +1,20 @@
 package com.example.lenovo.funnygrasshopper
 
-import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
+import android.view.Window
 import android.widget.Button
-import android.widget.TextView
+import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.Toast
+
+
 
 /**
  * Главное окно приложения, в котором находятся кнопки, направляющие в
@@ -21,110 +26,102 @@ import android.widget.Toast
  * Если ключ не введен, то нажатие на любую кнопку откроет окно для введения пользователького ключа
  * В верхней части окна отображается текущий пользовательский ключ, если он существует
  */
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
 
     private var KEY: String? = ""
-    private var Encry: Button? = null
-    private var Decry: Button? = null
-    private var Key: Button? = null
-    private var Text: TextView? = null
-    private var isSave: Boolean = false
+    val grassHopper = GrassHopper()
     private var sPref: SharedPreferences? = null
-    private var DecryText: Button? = null
-    private val rec = GrassHopper()
+    private var dialog:Dialog? = null
+    private var editText:EditText? = null
+    private var checkBox:CheckBox? = null
 
-    private fun toKeyActivity() {
-        val intent = Intent(this, KeyActivity::class.java)
-        intent.putExtra("key", KEY)
-        startActivityForResult(intent, 1)
-    }
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener{
+        item ->
+        val transantion = supportFragmentManager.beginTransaction()
 
-    /**
-     * Функция, создающая всплывающий текст
-     * @param str Текст, который необходимо вывести на экран[String]
-     */
-    private fun MyToast(str:String) = Toast.makeText(this, str, Toast.LENGTH_SHORT).show()
-
-    private fun toAnyActivity(_class: String) {
-        var intent: Intent? = null
-        when (_class) {
-            "EncryptActivity" -> intent = Intent(this, EncryptActivity::class.java)
-            "DecryptTextActivity" -> intent = Intent(this, DecryptTextActivity::class.java)
-            "DecryptActivity" -> intent = Intent(this, DecryptActivity::class.java)
-            else -> MyToast("I don't know this layout")
+        when(item.itemId){
+            R.id.action_encrypt->{
+                transantion.replace(R.id.frame, EncryptFragment()).commit()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_decrypt_image->{
+                transantion.replace(R.id.frame, DecryptImageFragment()).commit()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.action_decrypt_text->{
+                transantion.replace(R.id.frame, DecryptTextFragment()).commit()
+                return@OnNavigationItemSelectedListener true
+            }
         }
-        intent?.putExtra("Hoop", rec.key)
-        startActivity(intent)
+        false
+
     }
 
-    override fun onClick(v: View?) =  when (v?.id) {
-            R.id.decrText -> {
-                if (KEY == "") {
-                    MyToast("The key does not exist")
-                    toKeyActivity()
-                } else toAnyActivity("DecryptTextActivity")
-            }
-            R.id.encr -> {
-                if (KEY == "") {
-                    MyToast("The key does not exist")
-                    toKeyActivity()
-                } else toAnyActivity("EncryptActivity")
-            }
-            R.id.decr -> {
-                if (KEY == "") {
-                    MyToast("The key does not exist")
-                    toKeyActivity()
-                } else toAnyActivity("DecryptActivity")
-            }
-            R.id.key -> toKeyActivity()
-        else -> MyToast("Element of lyaout not found")
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val menuinflater = menuInflater
+        menuinflater.inflate(R.menu.action_bar, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
-    /**
-     * Функция, проверки наличия пользовательского ключа и,
-     * если он существует, вывод его в верхней части окна
-     */
-    @SuppressLint("SetTextI18n")
-    private fun AboutKey() = if (KEY != "") {
-        Text?.text = "Your key is $KEY"
-            rec.key_create(KEY!!)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.action_bar_enter_key->CallDialog()
+            R.id.action_bar_delete_key->{
+                KEY=""
+                if(grassHopper.key[0].length!=0)
+                    grassHopper.key.fill("")
+                Toast.makeText(this, getString(R.string.deleted_key), Toast.LENGTH_SHORT).show()
+            }
         }
-    else Text?.text = "You haven,t key"
 
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun CallDialog(){
+        dialog = Dialog(this)
+        dialog?.setTitle(getString(R.string.enter_key))
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog?.setContentView(R.layout.enter_key_dialog)
+        dialog?.show()
+        editText = dialog?.findViewById(R.id.edit_text_key) as EditText
+        checkBox = dialog?.findViewById(R.id.check_box_remember) as CheckBox
+
+        val buttonBack = dialog?.findViewById(R.id.button_back) as Button
+        buttonBack.setOnClickListener{
+            v->if(v.id==R.id.button_back) dialog?.cancel()
+        }
+
+        val buttonSave = dialog?.findViewById(R.id.button_save) as Button
+        buttonSave.setOnClickListener{
+            v->if(v.id==R.id.button_save) SaveKey()
+        }
+    }
+
+    private fun SaveKey(){
+        val tmp = editText?.text.toString()
+        if(tmp.isNotEmpty()){
+            KEY = tmp
+            grassHopper.key_create(KEY!!)
+            val ed = sPref?.edit()
+            if(checkBox?.isChecked == true)
+                ed?.putString(getString(R.string.saves_keys), KEY)
+            else
+                ed?.putString(getString(R.string.saves_keys), "")
+            ed?.commit()
+        }else Toast.makeText(this, getString(R.string.not_enter_key), Toast.LENGTH_SHORT).show()
+
+        dialog?.cancel()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main)
-        Encry = findViewById(R.id.encr) as Button
-        Encry?.setOnClickListener(this)
-        Decry = findViewById(R.id.decr) as Button
-        Decry?.setOnClickListener(this)
-        DecryText = findViewById(R.id.decrText) as Button
-        DecryText?.setOnClickListener(this)
-        Key = findViewById(R.id.key) as Button
-        Key?.setOnClickListener(this)
-        Text = findViewById(R.id.textView) as TextView
+        val mBottomNavigationView = findViewById(R.id.bottomNavigationView) as BottomNavigationView
+        mBottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         sPref = getPreferences(Context.MODE_PRIVATE)
-        KEY = sPref?.getString("saves_key", "")
-        isSave = sPref?.getBoolean("saved_is", false)!!
-        AboutKey()
+        KEY = sPref?.getString(getString(R.string.saves_keys), "")
+        if(KEY?.length !=0) grassHopper.key_create(KEY!!)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data == null) return
-
-        KEY = data.getStringExtra("key")
-        isSave = data.getBooleanExtra("isSave", true)
-        AboutKey()
-
-        sPref = getPreferences(Context.MODE_PRIVATE)
-        val ed = sPref?.edit()
-
-        if (isSave) ed?.putString("saves_key", KEY)
-        else ed?.putString("saves_key", "")
-
-        ed?.putBoolean("saved_is", isSave)
-        ed?.commit()
-    }
 }
+

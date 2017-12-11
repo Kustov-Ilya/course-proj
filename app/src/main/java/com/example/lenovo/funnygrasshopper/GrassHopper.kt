@@ -66,7 +66,7 @@ private  var iter_const: MutableList<String>? = null
  */
 
 class GrassHopper {
-    lateinit var key: Array<String>
+    var key: Array<String> = Array(10, { "" })
     private lateinit var text: MutableList<String> //Текст, разбитый на блоки размерности SIZE_OF_BLOCK
 
 
@@ -273,7 +273,6 @@ class GrassHopper {
     fun key_create(KEY: String) {
         init_const()
         val Key = sha256(KEY)
-        key = Array(10, { "" })
         key[0] = Key.substring(0, 16)
         key[1] = Key.substring(16)
         for (i in 0 until 4) {
@@ -318,3 +317,5 @@ class GrassHopper {
         return rez.toString()
     }
 }
+
+
