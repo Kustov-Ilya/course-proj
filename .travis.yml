@@ -33,8 +33,6 @@ before_script:
 script:
   - ./gradlew ":$MODULE:build" ":$MODULE-kotlin:build" ":$MODULE:connectedCheck" --stacktrace
 
-after_success:
-  - .buildscript/deploy_snapshot.sh
 
 env:
   matrix:
